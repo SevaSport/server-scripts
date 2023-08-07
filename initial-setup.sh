@@ -81,6 +81,13 @@ function installFail2ban() {
 	apt install fail2ban -y
 }
 
+function installSpeedtest() {
+	# Install Speedtest
+	apt-get install curl
+  curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+  apt-get install speedtest
+}
+
 # Check for root, OS...
 initialCheck
 
@@ -116,6 +123,15 @@ if [[ -e /etc/ufw/ufw.conf ]]; then
 	echo ""
 else
 	installFail2ban
+fi
+
+# Check if openssh-server is already installed
+if [[ -e /etc/apt/sources.list.d/ookla_speedtest-cli.list ]]; then
+	echo ""
+	echo "✅ It looks like OpenSSH Server is already installed."
+	echo ""
+else
+	installSpeedtest
 fi
 
 echo ""
